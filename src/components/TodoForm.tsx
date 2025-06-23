@@ -13,6 +13,7 @@ const TodoForm = ({ status }: { status: TodoStatus }) => {
     e.preventDefault();
     if (title.trim() === "") {
       alert("Tiêu đề không đươc bỏ trống");
+      return;
     }
     const newTodo: TodoFormInput = { title, description, status };
     addTodo(newTodo);

@@ -1,4 +1,5 @@
-export type TodoStatus = 'todo' | 'inProgress' | 'done';
+export const statues = ['todo' , 'inProgress' , 'done'];
+export type TodoStatus = typeof statues[number]
 
 export interface Todo {
   id:string;
@@ -8,3 +9,5 @@ export interface Todo {
   completed: boolean;
   createdAt: number;
 }
+
+export type TodoFormInput = Omit<Todo,'id' | 'completed' | 'createdAt'> 

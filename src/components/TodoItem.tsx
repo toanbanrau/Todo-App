@@ -3,6 +3,7 @@ import { useTodoStore } from "../stores/useTodoStore";
 import IconDelete from "./icons/IconDelete";
 import TodoModal from "./TodoModal";
 import type { Todo } from "../interfaces/todo";
+import IconEdit from "./icons/IconEdit";
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
   const { updateTodo, deleteTodo, toggleTodo } = useTodoStore();
@@ -40,7 +41,6 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
         <div
           draggable
           onDragStart={handleDragStart}
-          onClick={() => setIsModal(true)}
           className="flex justify-between mx-2 bg-white p-4 rounded-lg border-1 border-gray-300 boder-2 hover:border-blue-400 cursor-move"
         >
           <div className="flex items-center">
@@ -50,13 +50,21 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
               onChange={() => toggleTodo(todo.id)}
             />
             <label
+              onClick={() => setIsModal(true)}
               className="p-2 block max-w-40 break-words"
-              onClick={() => startEditting(todo)}
             >
               {todo.title}
             </label>
           </div>
-          <IconDelete onClick={() => deleteTodo(todo.id)} />
+          <div className="flex">
+            <IconEdit onClick={() => startEditting(todo)} />
+            <IconDelete
+              onClick={() =>
+                window.confirm("Are you sure want to delete") &&
+                deleteTodo(todo.id)
+              }
+            />
+          </div>
         </div>
       )}
       {isModal && (

@@ -1,9 +1,9 @@
-import type { TodoStatus } from "../interfaces/todo";
+import { statues, type TodoStatus } from "../interfaces/todo";
 import { useTodoStore } from "../stores/useTodoStore";
 import TodoColumn from "./TodoColumn";
 
 const TodoBoard = () => {
-  const statuses: TodoStatus[] = ["todo", "inProgress", "done"];
+  const statuses: TodoStatus[] = statues;
   const { todos } = useTodoStore();
 
   return (

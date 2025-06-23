@@ -1,16 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export type TodoStatus = 'todo' | 'inProgress' | 'done';
-
-export interface Todo {
-  id:string;
-  title: string;
-  description: string;
-  status: TodoStatus;
-  completed: boolean;
-  createdAt: number;
-}
+import type { Todo } from '../interfaces/todo';
 
 interface TodoState {
   todos: Todo[];

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useTodoStore, type TodoStatus } from "../stores/useTodoStore";
+import { useTodoStore } from "../stores/useTodoStore";
 import IconCancel from "./icons/IconCancel";
+import type { TodoStatus } from "../interfaces/todo";
 
 const TodoForm = ({ status }: { status: TodoStatus }) => {
   const [title, setTitle] = useState("");

@@ -1,4 +1,5 @@
-import { useTodoStore, type TodoStatus } from "../stores/useTodoStore";
+import type { TodoStatus } from "../interfaces/todo";
+import { useTodoStore } from "../stores/useTodoStore";
 import TodoColumn from "./TodoColumn";
 
 const TodoBoard = () => {

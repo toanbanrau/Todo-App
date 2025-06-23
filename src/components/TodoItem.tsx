@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useTodoStore, type Todo } from "../stores/useTodoStore";
+import { useTodoStore } from "../stores/useTodoStore";
 import IconDelete from "./icons/IconDelete";
 import TodoModal from "./TodoModal";
+import type { Todo } from "../interfaces/todo";
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
   const { updateTodo, deleteTodo, toggleTodo } = useTodoStore();

@@ -72,7 +72,7 @@ const TodoForm = ({ status }: { status: TodoStatus }) => {
     );
   return (
     <button
-      className=" cursor-pointer hover:bg-gray-200 mx-2 mb-2 h-8 rounded"
+      className="block w-full cursor-pointer hover:bg-gray-200 h-8 rounded"
       onClick={() => setStartAdd(true)}
     >
       + Add Todo

@@ -76,4 +76,4 @@ Có tag cụ thể
 Sort theo thời gian tạo hoặc deadline
 
 Hiển thị progress bar (bao nhiêu % todo đã hoàn thành)
-
+zod -> validate query

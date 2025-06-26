@@ -77,3 +77,9 @@ Sort theo thời gian tạo hoặc deadline
 
 Hiển thị progress bar (bao nhiêu % todo đã hoàn thành)
 zod -> validate query
+
+branch: 
+1. CRUD đầy đủ 
+2. filter
+3. Hiển thị progress bar (bao nhiêu % todo đã hoàn thành) -> utils -> unitest -> JEST
+

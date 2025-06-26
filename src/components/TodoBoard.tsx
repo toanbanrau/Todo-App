@@ -1,4 +1,4 @@
-import { statues } from "../interfaces/todo";
+import { todoStatus } from "../interfaces/todo";
 import { useTodoStore } from "../stores/useTodoStore";
 import TodoColumn from "./TodoColumn";
 
@@ -9,7 +9,7 @@ const TodoBoard = () => {
     <div className="w-full h-full overflow-x-auto">
       <h1 className="flex justify-center text-3xl font-bold">Todo Board</h1>
       <div className="flex justify-center gap-4 p-4 min-w-max">
-        {statues.map((status) => {
+        {Object.values(todoStatus).map((status) => {
           return (
             <TodoColumn
               key={status}

@@ -1,10 +1,10 @@
-import type { Todo, TodoStatus } from "../interfaces/todo";
+import type { Todo, todoStatus } from "../interfaces/todo";
 import { useTodoStore } from "../stores/useTodoStore";
 import TodoForm from "./TodoForm";
 
 import TodoItem from "./TodoItem";
 interface TodoColumnProps {
-  status: TodoStatus;
+  status: todoStatus;
   todos: Todo[];
 }
 

@@ -1,11 +1,14 @@
-export const statues = ['todo' , 'inProgress' , 'done'];
-export type TodoStatus = typeof statues[number]
+export enum todoStatus {
+  Todo = "todo",
+  InProgress = "in_progress",
+  Done = "done",
+}
 
 export interface Todo {
   id:string;
   title: string;
   description: string;
-  status: TodoStatus;
+  status: todoStatus;
   completed: boolean;
   createdAt: number;
 }

@@ -31,6 +31,7 @@ interface Todo {
   tags: string[];
   createdAt: string;
   updatedAt: string;
+  attachment?: string
 }
 ```
 

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Todo, todoStatus } from "../interfaces/todo";
 import { useTodoStore } from "../stores/useTodoStore";
 import TodoForm from "./TodoForm";
@@ -9,6 +10,7 @@ interface TodoColumnProps {
 }
 
 const TodoColumn = ({ status, todos }: TodoColumnProps) => {
+  const [startAdd, setStartAdd] = useState(false);
   const { updateTodo } = useTodoStore();
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -21,10 +23,8 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
     updateTodo(todo.id, { status });
   };
   return (
-    <div className="w-[17rem] bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden">
-      <h2 className="flex justify-center font-bold border-b border-gray-400 ">
-        {status}
-      </h2>
+    <div className="w-[17rem] h-a bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden">
+      <p className=" font-bold text-ms ">{status}</p>
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -34,7 +34,16 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
           return <TodoItem key={todo.id} todo={todo} />;
         })}
       </div>
-      <TodoForm status={status} />
+      {startAdd ? (
+        <TodoForm status={status} onClose={() => setStartAdd(false)} />
+      ) : (
+        <button
+          className="block w-full cursor-pointer hover:bg-gray-200 h-8 rounded"
+          onClick={() => setStartAdd(true)}
+        >
+          + Add Todo
+        </button>
+      )}
     </div>
   );
 };

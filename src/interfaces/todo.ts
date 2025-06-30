@@ -1,22 +1,16 @@
 export enum todoStatus {
-  Todo = "Todo",
-  InProgress = "Inprogress",
-  Done = "Done",
+  Todo = "todo",
+  InProgress = "in_progress",
+  Done = "done",
 }
-
-type Priority = 'low' | 'medium' | 'high';
 
 export interface Todo {
   id:string;
   title: string;
   description: string;
-  priority: Priority;
-  deadline: string;
   status: todoStatus;
-  tags: string[];
   completed: boolean;
-  createdAt: string;
-  updatedAt: string | null;
+  createdAt: number;
 }
 
-export type TodoFormInput = Omit<Todo, 'id' | 'completed' | 'createdAt' | 'updatedAt'>;
+export type TodoFormInput = Omit<Todo,'id' | 'completed' | 'createdAt'> 

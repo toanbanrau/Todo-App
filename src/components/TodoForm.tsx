@@ -24,6 +24,7 @@ const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
     deadline: z.string().min(1, "Vui lòng chọn deadline"),
     priority: z.enum(["low", "medium", "high"]),
     status: z.nativeEnum(todoStatus),
+    thumbnail: z.string().min(1, "Không đc bỏ trống ảnh"),
   });
   const { addTodo, updateTodo } = useTodoStore();
   const {
@@ -38,6 +39,7 @@ const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
       title: "",
       description: "",
       tags: [],
+      thumbnail: "",
       priority: "low",
       deadline: "",
       status: status,
@@ -161,6 +163,21 @@ const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
         />
         {errors.deadline && (
           <p className="text-red-500 text-sm">{errors.deadline.message}</p>
+        )}
+      </div>
+      <div className="flex flex-col gap-1">
+        <label htmlFor="todo-title" className="font-medium text-gray-700">
+          Thumbnail
+        </label>
+        <input
+          id="todo-title"
+          className="px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          type="text"
+          {...register("thumbnail")}
+          placeholder="Add Todo"
+        />
+        {errors.thumbnail && (
+          <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>
         )}
       </div>
       <div className="flex items-center">

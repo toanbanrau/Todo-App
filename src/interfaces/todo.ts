@@ -12,6 +12,7 @@ export interface Todo {
   description: string;
   priority: Priority;
   deadline: string;
+  thumbnail:string;
   status: todoStatus;
   tags: string[];
   completed: boolean;

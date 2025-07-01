@@ -104,13 +104,7 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
           <span>Cập nhật: {todo.updatedAt && timeAgo(todo.updatedAt)}</span>
         </div>
       </div>
-      {isModal && (
-        <TodoModal
-          title={todo.title}
-          description={todo.description}
-          onClose={() => setIsModal(false)}
-        />
-      )}
+      {isModal && <TodoModal todo={todo} onClose={() => setIsModal(false)} />}
     </>
   );
 };

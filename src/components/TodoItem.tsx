@@ -5,6 +5,7 @@ import TodoModal from "./TodoModal";
 import type { Todo } from "../interfaces/todo";
 import IconEdit from "./icons/IconEdit";
 import TodoForm from "./TodoForm";
+import { ConfirmDialog } from "./ui/AlertDialog";
 
 const colorPriorityBadge = {
   high: "border-red-500",
@@ -27,8 +28,6 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
   const [isEditting, setEditting] = useState<string | null>(null);
   const [isModal, setIsModal] = useState(false);
 
-  console.log(todo.deadline);
-
   const { deleteTodo, toggleTodo } = useTodoStore();
 
   const startEditting = (todo: Todo) => {
@@ -39,24 +38,16 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
     e.dataTransfer.setData("text/plain", JSON.stringify(todo));
   };
 
-  if (isEditting == todo.id)
-    return (
-      <TodoForm
-        status={todo.status}
-        onClose={() => setEditting(null)}
-        todo={todo}
-      />
-    );
   return (
     <>
       <div
         draggable
         onDragStart={handleDragStart}
-        className={` mx-2 bg-white rounded-lg border-1 border-gray-300 boder-2 hover:border-blue-400 cursor-move ${colorPriorityBadge[todo.priority]}
+        className={`mx-2 p-2 bg-white rounded-lg border-1 boder-2 hover:border-blue-400 cursor-pointer ${colorPriorityBadge[todo.priority]}
            `}
       >
         <div className="flex justify-between">
-          <div className="flex pt-2 pl-2">
+          <div className="flex">
             <input
               type="checkbox"
               checked={todo.completed}
@@ -64,19 +55,19 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
             />
             <label
               onClick={() => setIsModal(true)}
-              className="pl-2 block max-w-40 break-words"
+              className={`${todo.status == "Done" ? "line-through" : ""}  pl-2 block max-w-40 break-words`}
             >
               {todo.title}
             </label>
           </div>
-          <div className="flex pt-2 ">
+          <div className="flex ">
             <IconEdit onClick={() => startEditting(todo)} />
-            <IconDelete
-              onClick={() =>
-                window.confirm("Are you sure want to delete") &&
-                deleteTodo(todo.id)
-              }
-            />
+            <ConfirmDialog
+              description="Bạn có chắc muốn xoá công việc này? Hành động không thể hoàn tác."
+              onConfirm={() => deleteTodo(todo.id)}
+            >
+              <IconDelete />
+            </ConfirmDialog>
           </div>
         </div>
         <div className="text-xs text-gray-500 mt-1">
@@ -105,6 +96,13 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
         </div>
       </div>
       {isModal && <TodoModal todo={todo} onClose={() => setIsModal(false)} />}
+      {isEditting == todo.id && (
+        <TodoForm
+          status={todo.status}
+          onClose={() => setEditting(null)}
+          todo={todo}
+        />
+      )}
     </>
   );
 };

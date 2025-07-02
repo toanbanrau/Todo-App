@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Todo } from '../interfaces/todo';
+import { todoStatus, type Todo } from '../interfaces/todo';
 
 interface TodoState {
   todos: Todo[];
@@ -25,7 +25,7 @@ export const useTodoStore = create<TodoState>()(
       todos:state.todos.filter((t)=>t.id !== id)
     })),
     toggleTodo:(id)=>set((state)=>({
-      todos:state.todos.map((t)=>t.id === id ? {...t, completed:!t.completed} : t)
+      todos:state.todos.map((t)=>t.id === id ? {...t, completed:!t.completed,updatedAt:new Date().toString(),status:t.completed ? todoStatus.InProgress : todoStatus.Done } : t)
     }))
   }),
   {

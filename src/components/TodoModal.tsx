@@ -1,19 +1,14 @@
 import React from "react";
 import type { Todo } from "../interfaces/todo";
+import { checkThumbnail } from "../lib/utils";
 
 interface TodoModalProps {
   todo: Todo;
   onClose: () => void;
 }
 
-const checkThumbail = (dataUrl: string) => {
-  if (!dataUrl) return;
-  if (dataUrl.startsWith("data:image")) return "image";
-  if (dataUrl.startsWith("data:video")) return "video";
-};
-
 const TodoModal: React.FC<TodoModalProps> = ({ todo, onClose }) => {
-  const checkthumbnai = checkThumbail(todo.thumbnail);
+  const checkthumbnai = checkThumbnail(todo.thumbnail);
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">

@@ -1,16 +1,15 @@
 import React from "react";
+import type { Todo } from "../interfaces/todo";
+import { checkThumbnail } from "../lib/utils";
 
 interface TodoModalProps {
-  title: string;
-  description: string;
+  todo: Todo;
   onClose: () => void;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({
-  title,
-  description,
-  onClose,
-}) => {
+const TodoModal: React.FC<TodoModalProps> = ({ todo, onClose }) => {
+  const checkthumbnai = checkThumbnail(todo.thumbnail);
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full">
@@ -24,7 +23,7 @@ const TodoModal: React.FC<TodoModalProps> = ({
           Title
         </label>
         <p className="border-1 border-gray-300 text-gray-800 break-words mb-4">
-          {title}
+          {todo.title}
         </p>
         <label
           htmlFor="description"
@@ -33,8 +32,29 @@ const TodoModal: React.FC<TodoModalProps> = ({
           Description
         </label>
         <p className="border-1 border-gray-300 text-gray-800 break-words">
-          {description}
+          {todo.description}
         </p>
+        <label
+          htmlFor="thumbnail"
+          className="block text-sm font-medium text-gray-600 mb-1"
+        >
+          Thumbnail
+        </label>
+        {checkthumbnai == "image" && (
+          <img
+            src={todo.thumbnail}
+            alt="Thumbnail"
+            className="w-full h-40 object-cover rounded mb-4 border"
+          />
+        )}
+        {checkthumbnai == "video" && (
+          <video
+            src={todo.thumbnail}
+            controls
+            className="w-full h-40 object-cover rounded mb-4 border"
+          />
+        )}
+
         <button
           onClick={onClose}
           className="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"

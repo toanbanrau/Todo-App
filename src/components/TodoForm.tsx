@@ -17,7 +17,7 @@ interface todoFormProps {
   todo?: Todo;
 }
 
-const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
+const TodoForm = ({ status, todo, onClose }: todoFormProps) => {
   const schema = z.object({
     title: z.string().min(1, "Tên không đc bỏ trống"),
     description: z.string(),
@@ -65,7 +65,6 @@ const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
     }
     addTodo({ ...data });
     reset();
-    onClose();
   };
 
   function toDatetimeLocal(dateStr?: string) {
@@ -74,13 +73,11 @@ const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
     return date.toISOString().slice(0, 16);
   }
 
-  const checkthumbnai = checkThumbnail(watch("thumbnail"));
-
   return (
-    <div className="fixed overflow-y-auto  inset-0 a bg-black/40 flex items-center justify-center z-50">
+    <div className="fixed   inset-0 a bg-black/40 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit(onsubmit)}
-        className="mx-2 mb-2 max-w-ful md:gap-4 gap-2 border-2 border-gray-300 p-5 rounded-2xl bg-white"
+        className="mx-2 overflow-y-auto mb-2 max-w-[30rem] max-h-full md:gap-4 gap-2 border-2 border-gray-300 p-5 rounded-2xl bg-white"
       >
         <div className="flex flex-col gap-1">
           <label htmlFor="todo-title" className="font-medium text-gray-700">
@@ -127,6 +124,14 @@ const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
                 onChange(value.filter((_, i) => i !== index));
               };
               const handleAddition = (tag: Tag) => {
+                if (
+                  value.some(
+                    (t: string) =>
+                      t.trim().toLowerCase() === tag.text.trim().toLowerCase(),
+                  )
+                ) {
+                  return;
+                }
                 onChange([...value, tag.text]);
               };
               return (
@@ -194,23 +199,21 @@ const TodoForm = ({ status, onClose, todo }: todoFormProps) => {
             id="todo-title"
             className="px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             type="text"
-            {...register("thumbnail")}
+            {...register("thumbnail", {
+              pattern: {
+                value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i, // Basic URL regex
+                message: "Invalid URL format",
+              },
+            })}
             placeholder="Add Todo"
           />
           {errors.thumbnail && (
             <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>
           )}
-          {watch("thumbnail") && checkthumbnai == "image" && (
+          {watch("thumbnail") && (
             <img
               src={watch("thumbnail")}
               alt="Thumbnail"
-              className="w-full h-40 object-cover rounded mb-4 border"
-            />
-          )}
-          {watch("thumbnail") && checkthumbnai == "video" && (
-            <video
-              src={watch("thumbnail")}
-              controls
               className="w-full h-40 object-cover rounded mb-4 border"
             />
           )}

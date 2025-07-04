@@ -4,23 +4,35 @@ import { useTodoStore } from "../stores/useTodoStore";
 import TodoForm from "./TodoForm";
 
 import TodoItem from "./TodoItem";
-import { useDnDStores } from "../stores/useDndStores";
+
 interface TodoColumnProps {
   status: todoStatus;
   todos: Todo[];
+  isDragEnter: boolean;
+  isDragleave: boolean;
+  currentColumn?: string;
+  updateCurrentColumns: (column?: string) => void;
+  startEnter: () => void;
+  endEnter: () => void;
+  startLeave: () => void;
+  endLeave: () => void;
 }
 
-const TodoColumn = ({ status, todos }: TodoColumnProps) => {
+const TodoColumn = ({
+  status,
+  todos,
+  isDragleave,
+  currentColumn,
+  updateCurrentColumns,
+  startEnter,
+  endEnter,
+  startLeave,
+  endLeave,
+}: TodoColumnProps) => {
   const [startAdd, setStartAdd] = useState(false);
   const { updateTodo } = useTodoStore();
-  const {
-    isDragleave,
-    isDragEnter,
-    startEnter,
-    startLeave,
-    endEnter,
-    endLeave,
-  } = useDnDStores();
+
+  const isActive = currentColumn === status;
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -31,25 +43,29 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
     const draggedTodoData = e.dataTransfer.getData("text/plain");
     const todo = JSON.parse(draggedTodoData);
     updateTodo(todo.id, { status });
-    endEnter();
     endLeave();
+    endEnter();
   };
   const handleDragLeave = () => {
+    updateCurrentColumns(status);
     startLeave();
     endEnter();
   };
   const handleDragEnter = () => {
     startEnter();
+    updateCurrentColumns(status);
   };
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    updateCurrentColumns();
     e.preventDefault();
     endLeave();
     endEnter();
   };
+
   return (
     <>
       <div
-        className={`${isDragleave ? "ring-4 ring-blue-400" : ""} w-[17rem] self-start bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden`}
+        className={`${isDragleave && "ring-4 ring-blue-400 "}w-[17rem] self-start bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden`}
       >
         <p className="p-4 font-bold text-ms ">{status}</p>
         <div
@@ -62,10 +78,11 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
         >
           {isDragleave && (
             <div
-              className={`${isDragEnter ? "border-2 border-red-500 bg-red-400" : "border-2 border-dashed border-blue-400"} h-12 rounded-lg bg-blue-100 flex items-center mx-2 justify-center mb-2 animate-pulse transition-all duration-200`}
-            ></div>
+              className={`${isActive ? "bg-red-300" : ""} text-center py-8 rounded-lg mx-2 transition-all duration-200 bg-blue-100 border-2 border-dashed border-blue-400 text-blue-700`}
+            >
+              Thả vào đây để chuyển
+            </div>
           )}
-
           {todos.map((todo) => {
             return <TodoItem key={todo.id} todo={todo} />;
           })}
@@ -77,6 +94,7 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
           + Add Todo
         </button>
       </div>
+
       {startAdd && (
         <TodoForm status={status} onClose={() => setStartAdd(false)} />
       )}

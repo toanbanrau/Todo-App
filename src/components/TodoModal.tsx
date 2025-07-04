@@ -1,21 +1,31 @@
 import React from "react";
 import type { Todo } from "../interfaces/todo";
-import { checkThumbnail } from "../lib/utils";
+
+import { useTodoStore } from "../stores/useTodoStore";
 
 interface TodoModalProps {
   todo: Todo;
-  onClose: () => void;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({ todo, onClose }) => {
-  const checkthumbnai = checkThumbnail(todo.thumbnail);
+const TodoModal: React.FC<TodoModalProps> = ({ todo }: TodoModalProps) => {
+  const { toggleTodo } = useTodoStore();
+  const { resetSelectedView } = useTodoStore();
+  console.log(todo);
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-          Job Detail
-        </h2>
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Job Detail
+          </h2>
+          <input
+            className="w-8"
+            type="checkbox"
+            checked={todo?.completed}
+            onChange={() => toggleTodo(todo.id)}
+          />
+        </div>
         <label
           htmlFor="title"
           className="block text-sm font-medium text-gray-600 mb-1"
@@ -23,7 +33,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ todo, onClose }) => {
           Title
         </label>
         <p className="border-1 border-gray-300 text-gray-800 break-words mb-4">
-          {todo.title}
+          {todo?.title}
         </p>
         <label
           htmlFor="description"
@@ -32,7 +42,7 @@ const TodoModal: React.FC<TodoModalProps> = ({ todo, onClose }) => {
           Description
         </label>
         <p className="border-1 border-gray-300 text-gray-800 break-words">
-          {todo.description}
+          {todo?.description}
         </p>
         <label
           htmlFor="thumbnail"
@@ -40,23 +50,14 @@ const TodoModal: React.FC<TodoModalProps> = ({ todo, onClose }) => {
         >
           Thumbnail
         </label>
-        {checkthumbnai == "image" && (
-          <img
-            src={todo.thumbnail}
-            alt="Thumbnail"
-            className="w-full h-40 object-cover rounded mb-4 border"
-          />
-        )}
-        {checkthumbnai == "video" && (
-          <video
-            src={todo.thumbnail}
-            controls
-            className="w-full h-40 object-cover rounded mb-4 border"
-          />
-        )}
 
+        <img
+          src={todo?.thumbnail}
+          alt="Thumbnail"
+          className="w-full h-40 object-cover rounded mb-4 border"
+        />
         <button
-          onClick={onClose}
+          onClick={resetSelectedView}
           className="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
         >
           Close

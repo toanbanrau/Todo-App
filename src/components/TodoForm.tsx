@@ -11,12 +11,12 @@ import "../assets/styles/reactTag.css";
 import { useEffect } from "react";
 
 interface todoFormProps {
-  status: todoStatus;
+  statusAdd?: todoStatus;
   onClose: () => void;
   todo?: Todo;
 }
 
-const TodoForm = ({ status, todo, onClose }: todoFormProps) => {
+const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
   const schema = z.object({
     title: z.string().min(1, "Tên không đc bỏ trống"),
     description: z.string(),
@@ -43,7 +43,7 @@ const TodoForm = ({ status, todo, onClose }: todoFormProps) => {
       thumbnail: "",
       priority: "low",
       deadline: "",
-      status: status,
+      status: statusAdd,
     },
   });
 
@@ -53,7 +53,7 @@ const TodoForm = ({ status, todo, onClose }: todoFormProps) => {
       return;
     }
     reset();
-  }, [todo, reset, status]);
+  }, [todo, reset, statusAdd]);
 
   const onsubmit = (data: TodoFormInput) => {
     if (todo && todo.id) {
@@ -161,16 +161,16 @@ const TodoForm = ({ status, todo, onClose }: todoFormProps) => {
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="priority" className="font-medium text-gray-700">
-            Priority
+             Status
           </label>
           <select
             id="priority"
             {...register("status")}
             className="px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
           >
-            {Object.values(todoStatus).map((status) => (
-              <option key={status} value={status}>
-                {status}
+            {Object.values(todoStatus).map((statusAdd) => (
+              <option key={statusAdd} value={statusAdd}>
+                {statusAdd}
               </option>
             ))}
           </select>

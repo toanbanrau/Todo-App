@@ -67,7 +67,7 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
       </div>
 
       {startAdd && (
-        <TodoForm status={status} onClose={() => setStartAdd(false)} />
+        <TodoForm statusAdd={status} onClose={() => setStartAdd(false)} />
       )}
     </>
   );

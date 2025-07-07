@@ -14,7 +14,7 @@ const TodoBoard = () => {
 
   return (
     <div
-      className={`w-[100dvw] h-[100dvh] overflow-x-auto bg-no-repeat bg-cover bg-[url('../../public/images/62ed6ea71018a57a3ab0c8c959d78cb0.jpg')]`}
+      className={`w-[100dvw] h-[100dvh] overflow-x-auto bg-no-repeat bg-cover bg-[url('/images/62ed6ea71018a57a3ab0c8c959d78cb0.jpg')]`}
     >
       <div className="my-10">
         <h1 className="flex justify-center text-3xl font-bold">Todo Board</h1>

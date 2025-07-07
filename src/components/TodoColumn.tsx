@@ -4,7 +4,7 @@ import { useTodoStore } from "../stores/useTodoStore";
 import TodoForm from "./TodoForm";
 
 import TodoItem from "./TodoItem";
-import { useDnDStores } from "../stores/useDndStores";
+
 interface TodoColumnProps {
   status: todoStatus;
   todos: Todo[];
@@ -12,60 +12,48 @@ interface TodoColumnProps {
 
 const TodoColumn = ({ status, todos }: TodoColumnProps) => {
   const [startAdd, setStartAdd] = useState(false);
+  const [isOver, setIsDragOver] = useState<string | undefined>(undefined);
   const { updateTodo } = useTodoStore();
-  const {
-    isDragleave,
-    isDragEnter,
-    startEnter,
-    startLeave,
-    endEnter,
-    endLeave,
-  } = useDnDStores();
-
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    startEnter();
+    setIsDragOver(status);
   };
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const draggedTodoData = e.dataTransfer.getData("text/plain");
     const todo = JSON.parse(draggedTodoData);
     updateTodo(todo.id, { status });
-    endEnter();
-    endLeave();
+    setIsDragOver(undefined);
   };
   const handleDragLeave = () => {
-    startLeave();
-    endEnter();
+    setIsDragOver(undefined);
   };
-  const handleDragEnter = () => {
-    startEnter();
-  };
+
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    endLeave();
-    endEnter();
+    setIsDragOver(undefined);
   };
+
   return (
     <>
       <div
-        className={`${isDragleave ? "ring-4 ring-blue-400" : ""} w-[17rem] self-start bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden`}
+        className={`w-[19rem] self-start bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden`}
       >
         <p className="p-4 font-bold text-ms ">{status}</p>
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          onDragEnter={handleDragEnter}
           onDragEnd={handleDragEnd}
-          className={` overflow-y-auto max-h-80 space-y-4`}
+          className={` overflow-y-auto min-h-[10rem] max-h-80 space-y-4`}
         >
-          {isDragleave && (
+          {isOver == status && (
             <div
-              className={`${isDragEnter ? "border-2 border-red-500 bg-red-400" : "border-2 border-dashed border-blue-400"} h-12 rounded-lg bg-blue-100 flex items-center mx-2 justify-center mb-2 animate-pulse transition-all duration-200`}
-            ></div>
+              className={`text-center py-6 mt-4 rounded-lg mx-2 transition-all duration-200 bg-blue-100 border-2 border-dashed border-blue-400 text-blue-700`}
+            >
+              Thả vào đây để chuyển
+            </div>
           )}
-
           {todos.map((todo) => {
             return <TodoItem key={todo.id} todo={todo} />;
           })}
@@ -77,6 +65,7 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
           + Add Todo
         </button>
       </div>
+
       {startAdd && (
         <TodoForm status={status} onClose={() => setStartAdd(false)} />
       )}

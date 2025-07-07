@@ -6,7 +6,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const checkThumbnail = (dataUrl: string) => {
-  if (!dataUrl) return;
-  if (dataUrl.startsWith("data:image")) return "image";
-  if (dataUrl.startsWith("data:video")) return "video";
+  const img = new Image();
+  img.src = dataUrl;
+  return new Promise((resolve)=>{
+    img.onerror = () => resolve(false);
+    img.onload = () => resolve(true);
+  });
 };

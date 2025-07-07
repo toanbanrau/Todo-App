@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useTodoStore } from "../stores/useTodoStore";
 import IconDelete from "./icons/IconDelete";
-import TodoModal from "./TodoModal";
+
 import type { Todo } from "../interfaces/todo";
 import IconEdit from "./icons/IconEdit";
-import TodoForm from "./TodoForm";
+
 import { ConfirmDialog } from "./ui/AlertDialog";
 
 const colorPriorityBadge = {
@@ -25,14 +24,8 @@ const timeAgo = (dateStr: string) => {
 };
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
-  const [isEditting, setEditting] = useState<string | null>(null);
-  const [isModal, setIsModal] = useState(false);
-
-  const { deleteTodo, toggleTodo } = useTodoStore();
-
-  const startEditting = (todo: Todo) => {
-    setEditting(todo.id);
-  };
+  const { deleteTodo, toggleTodo, setSelectedEdit, setSelectedView } =
+    useTodoStore();
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData("text/plain", JSON.stringify(todo));
@@ -43,7 +36,7 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
       <div
         draggable
         onDragStart={handleDragStart}
-        className={`mx-2 p-2 bg-white rounded-lg border-1 boder-2 hover:border-blue-400 cursor-pointer ${colorPriorityBadge[todo.priority]}
+        className={`mx-2 p-2 max-w-[30rem] bg-white rounded-lg border-1 boder-2 hover:border-blue-400 cursor-pointer ${colorPriorityBadge[todo.priority]}
            `}
       >
         <div className="flex justify-between">
@@ -54,14 +47,14 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
               onChange={() => toggleTodo(todo.id)}
             />
             <label
-              onClick={() => setIsModal(true)}
+              onClick={() => setSelectedView(todo.id)}
               className={`${todo.status == "Done" ? "line-through" : ""}  pl-2 block max-w-40 break-words`}
             >
               {todo.title}
             </label>
           </div>
           <div className="flex ">
-            <IconEdit onClick={() => startEditting(todo)} />
+            <IconEdit onClick={() => setSelectedEdit(todo.id)} />
             <ConfirmDialog
               description="Bạn có chắc muốn xoá công việc này? Hành động không thể hoàn tác."
               onConfirm={() => deleteTodo(todo.id)}
@@ -95,14 +88,6 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
           <span>Cập nhật: {todo.updatedAt && timeAgo(todo.updatedAt)}</span>
         </div>
       </div>
-      {isModal && <TodoModal todo={todo} onClose={() => setIsModal(false)} />}
-      {isEditting == todo.id && (
-        <TodoForm
-          status={todo.status}
-          onClose={() => setEditting(null)}
-          todo={todo}
-        />
-      )}
     </>
   );
 };

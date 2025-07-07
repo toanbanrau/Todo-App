@@ -8,77 +8,48 @@ import TodoItem from "./TodoItem";
 interface TodoColumnProps {
   status: todoStatus;
   todos: Todo[];
-  isDragEnter: boolean;
-  isDragleave: boolean;
-  currentColumn?: string;
-  updateCurrentColumns: (column?: string) => void;
-  startEnter: () => void;
-  endEnter: () => void;
-  startLeave: () => void;
-  endLeave: () => void;
 }
 
-const TodoColumn = ({
-  status,
-  todos,
-  isDragleave,
-  currentColumn,
-  updateCurrentColumns,
-  startEnter,
-  endEnter,
-  startLeave,
-  endLeave,
-}: TodoColumnProps) => {
+const TodoColumn = ({ status, todos }: TodoColumnProps) => {
   const [startAdd, setStartAdd] = useState(false);
+  const [isOver, setIsDragOver] = useState<string | undefined>(undefined);
   const { updateTodo } = useTodoStore();
-
-  const isActive = currentColumn === status;
-
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    startEnter();
+    setIsDragOver(status);
   };
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const draggedTodoData = e.dataTransfer.getData("text/plain");
     const todo = JSON.parse(draggedTodoData);
     updateTodo(todo.id, { status });
-    endLeave();
-    endEnter();
+    setIsDragOver(undefined);
   };
   const handleDragLeave = () => {
-    updateCurrentColumns(status);
-    startLeave();
-    endEnter();
+    setIsDragOver(undefined);
   };
-  const handleDragEnter = () => {
-    startEnter();
-    updateCurrentColumns(status);
-  };
+
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
-    updateCurrentColumns();
     e.preventDefault();
-    endLeave();
-    endEnter();
+    setIsDragOver(undefined);
   };
 
   return (
     <>
       <div
-        className={`${isDragleave && "ring-4 ring-blue-400 "}w-[17rem] self-start bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden`}
+        className={`w-[19rem] self-start bg-[#f1f2f4] border-1 border-gray-300 rounded-md overflow-hidden`}
       >
         <p className="p-4 font-bold text-ms ">{status}</p>
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          onDragEnter={handleDragEnter}
           onDragEnd={handleDragEnd}
-          className={` overflow-y-auto max-h-80 space-y-4`}
+          className={` overflow-y-auto min-h-[10rem] max-h-80 space-y-4`}
         >
-          {isDragleave && (
+          {isOver == status && (
             <div
-              className={`${isActive ? "bg-red-300" : ""} text-center py-8 rounded-lg mx-2 transition-all duration-200 bg-blue-100 border-2 border-dashed border-blue-400 text-blue-700`}
+              className={`text-center py-6 mt-4 rounded-lg mx-2 transition-all duration-200 bg-blue-100 border-2 border-dashed border-blue-400 text-blue-700`}
             >
               Thả vào đây để chuyển
             </div>

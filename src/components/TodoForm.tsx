@@ -9,7 +9,6 @@ import IconCancel from "./icons/IconCancel";
 
 import "../assets/styles/reactTag.css";
 import { useEffect } from "react";
-import { checkThumbnail } from "../lib/utils";
 
 interface todoFormProps {
   status: todoStatus;

@@ -1,4 +1,3 @@
-import { useDnDStores } from "../hooks/useDndTodo";
 import { todoStatus } from "../interfaces/todo";
 import { useTodoStore } from "../stores/useTodoStore";
 import TodoColumn from "./TodoColumn";
@@ -8,16 +7,6 @@ import TodoModal from "./TodoModal";
 const TodoBoard = () => {
   const { todos } = useTodoStore();
   const { selectedEdit, selectedView, resetSelectedEdit } = useTodoStore();
-  const {
-    currentColumn,
-    isDragEnter,
-    isDragleave,
-    startEnter,
-    endEnter,
-    startLeave,
-    endLeave,
-    updateCurrentColumns,
-  } = useDnDStores();
 
   const handleCloseAddForm = () => {
     resetSelectedEdit();
@@ -41,14 +30,6 @@ const TodoBoard = () => {
                         new Date(b.createdAt).getTime() -
                         new Date(a.createdAt).getTime(),
                     )}
-                  isDragEnter={isDragEnter}
-                  isDragleave={isDragleave}
-                  currentColumn={currentColumn}
-                  updateCurrentColumns={updateCurrentColumns}
-                  startEnter={startEnter}
-                  endEnter={endEnter}
-                  startLeave={startLeave}
-                  endLeave={endLeave}
                 />
               );
             })}

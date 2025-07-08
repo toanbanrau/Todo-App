@@ -10,6 +10,7 @@ import IconCancel from "./icons/IconCancel";
 import "../assets/styles/reactTag.css";
 import { useEffect } from "react";
 import { checkThumbnail } from "../lib/utils";
+import { toast } from "react-toastify";
 
 interface todoFormProps {
   statusAdd?: todoStatus;
@@ -65,11 +66,15 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
     if (todo && todo.id) {
       updateTodo(todo.id, data);
       onClose();
+      toast.success("Cập nhật thành công");
       reset();
       return;
     }
     addTodo({ ...data });
     reset();
+    toast.success("Thêm mới thành công");
+    onClose();
+    return;
   };
 
   function toDatetimeLocal(dateStr?: string) {
@@ -231,7 +236,7 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
                 className="px-3 py-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                 type="text"
                 {...register("thumbnail")}
-                placeholder="Add Todo"
+                placeholder="Add thumnail"
               />
               {errors.thumbnail && (
                 <p className="text-red-500 text-sm">
@@ -250,7 +255,7 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
             </div>
           </div>
         </div>
-        <div className="flex items-between gap-1">
+        <div className="flex items-between gap-1 p-2">
           <button
             className="cursor-pointer w-full px-8 py-2 bg-gradient-to-b from-violet-500 to-pink-500 text-white rounded font-semibold"
             type="submit"

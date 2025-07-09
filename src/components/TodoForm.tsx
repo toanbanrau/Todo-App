@@ -10,7 +10,7 @@ import IconCancel from "./icons/IconCancel";
 import "../assets/styles/reactTag.css";
 import { useEffect } from "react";
 import { checkThumbnail } from "../lib/utils";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 interface todoFormProps {
   statusAdd?: todoStatus;
@@ -66,13 +66,13 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
     if (todo && todo.id) {
       updateTodo(todo.id, data);
       onClose();
-      toast.success("Cập nhật thành công");
+      toast("Cập nhật thành công");
       reset();
       return;
     }
     addTodo({ ...data });
     reset();
-    toast.success("Thêm mới thành công");
+    toast("Thêm mới thành công");
     onClose();
     return;
   };

@@ -13,7 +13,7 @@ const TodoBoard = () => {
 
   const handleCloseAddForm = () => {
     resetSelectedEdit();
-  };  
+  };
   const { filteredTodos } = useTodoFilter(todos);
 
   return (
@@ -23,7 +23,7 @@ const TodoBoard = () => {
       <div className="my-5">
         <h1 className="flex justify-center text-3xl font-bold">Todo Board</h1>
         <CategoriesFilterTodo />
-        <ProgressBar/>
+        <ProgressBar />
         <div className="flex justify-center gap-4 p-4 min-w-max">
           {Object.values(todoStatus).map((status) => {
             return (

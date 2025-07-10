@@ -63,7 +63,7 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
   }, [todo, reset, statusAdd]);
 
   const onsubmit = (data: TodoFormInput) => {
-    if (todo && todo.id) {
+    if (todo?.id) {
       updateTodo(todo.id, data);
       onClose();
       toast.success("Cập nhật thành công");

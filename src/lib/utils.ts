@@ -13,3 +13,8 @@ export const checkThumbnail = (dataUrl: string) => {
     img.onload = () => resolve(true);
   });
 };
+
+export const successTodo = (totalTodo: number, totalDone: number) => {
+  const totalSuccess = Math.floor((totalDone / totalTodo) * 100);
+  return totalSuccess;
+};

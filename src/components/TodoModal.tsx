@@ -1,42 +1,69 @@
 import React from "react";
+import type { Todo } from "../interfaces/todo";
+
+import { useTodoStore } from "../stores/useTodoStore";
 
 interface TodoModalProps {
-  title: string;
-  description: string;
-  onClose: () => void;
+  todo: Todo;
 }
 
-const TodoModal: React.FC<TodoModalProps> = ({
-  title,
-  description,
-  onClose,
-}) => {
+const TodoModal: React.FC<TodoModalProps> = ({ todo }: TodoModalProps) => {
+  const { toggleTodo } = useTodoStore();
+  const { resetSelectedView } = useTodoStore();
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-          Job Detail
-        </h2>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-600 mb-1"
-        >
-          Title
-        </label>
-        <p className="border-1 border-gray-300 text-gray-800 break-words mb-4">
-          {title}
-        </p>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-600 mb-1"
-        >
-          Description
-        </label>
-        <p className="border-1 border-gray-300 text-gray-800 break-words">
-          {description}
-        </p>
+      <div className="bg-white max-h-[80vh] p-8 rounded-xl shadow-2xl max-w-md w-full">
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Job Detail
+          </h2>
+          <input
+            className="w-8"
+            type="checkbox"
+            checked={todo?.completed}
+            onChange={() => toggleTodo(todo.id)}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-600 mb-1"
+          >
+            Title
+          </label>
+          <p className="p-3 border-1 rounded-md border-gray-300 text-gray-800 break-words mb-4">
+            {todo?.title}
+          </p>
+        </div>
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-600 mb-1"
+          >
+            Description
+          </label>
+          <p className="p-3 border bg-gray-50 border-gray-300 rounded-md text-gray-800 break-words mb-1">
+            {todo?.description || "No description"}
+          </p>
+        </div>
+        <div>
+          <label
+            htmlFor="thumbnail"
+            className="block text-sm font-medium text-gray-600 mb-1"
+          >
+            Thumbnail
+          </label>
+
+          <img
+            src={todo?.thumbnail}
+            alt="Thumbnail"
+            className="w-full h-40 object-cover rounded mb-4 border"
+          />
+        </div>
+
         <button
-          onClick={onClose}
+          onClick={resetSelectedView}
           className="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
         >
           Close

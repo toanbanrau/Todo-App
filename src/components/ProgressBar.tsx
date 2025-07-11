@@ -1,20 +1,24 @@
-import { successTodo } from "../lib/utils";
 import { useTodoStore } from "../stores/useTodoStore";
+import { successTodo } from "../lib/utils";
 
 const ProgressBar = () => {
   const { todos } = useTodoStore();
-  const totalTodo = todos.length;
-  const totalDone = todos.filter((todo) => todo.status === "Done").length;
-  const totalSuccess = successTodo(totalTodo, totalDone);
+  const todoCount = todos.length;
+  const doneCount = todos.filter((todo) => todo.status === "Done").length;
+  const todoSuccess = successTodo(todoCount, doneCount);
+  console.log(todoSuccess);
 
   return (
-    <div className="flex justify-center mb-4">
-      <div className="w-96 h-4 bg-gray-200 rounded-full">
-        <div
-          className="h-4 bg-blue-500 rounded-full"
-          style={{ width: `${totalSuccess}%` }}
-        ></div>
+    <div className="flex justify-center">
+      <div className="w-200 h-10">
+        <div className="w-full h-full bg-gray-200 rounded-full">
+          <div
+            style={{ width: `${todoSuccess}%` }}
+            className={`h-full bg-red-400 rounded-full`}
+          ></div>
+        </div>
       </div>
+      <div>{todoSuccess}%</div>
     </div>
   );
 };

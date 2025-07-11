@@ -1,4 +1,4 @@
-import { useTodoFilter } from "../hooks/useFilterTodo";
+import { priorityOptions, useTodoFilter } from "../hooks/useFilterTodo";
 import { useTodoStore } from "../stores/useTodoStore";
 
 const CategoriesFilterTodo = () => {
@@ -12,14 +12,15 @@ const CategoriesFilterTodo = () => {
         value={query.priority || ""}
         onChange={(e) =>
           updateQuery({
-            priority: e.target.value as "" | "low" | "medium" | "high",
+            priority: e.target.value as keyof typeof priorityOptions,
           })
         }
       >
-        <option value="">All</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
+        {Object.entries(priorityOptions).map(([priority, value]) => (
+          <option key={priority} value={priority}>
+            {value}
+          </option>
+        ))}
       </select>
       <select
         className="border rounded px-2 py-1 bg-[#f1f2f4]"
@@ -35,6 +36,7 @@ const CategoriesFilterTodo = () => {
       </select>
       <select
         className="border rounded px-2 py-1 bg-[#f1f2f4]"
+        priorityOptions
         value={query.sortOrder || ""}
         onChange={(e) =>
           updateQuery({

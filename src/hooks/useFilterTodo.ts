@@ -3,17 +3,24 @@ import type { Todo } from "../interfaces/todo";
 import { useSearchParams } from "react-router-dom";
 
 type TodoQueryParams = {
-  priority: "" | "low" | "medium" | "high";
+  priority: keyof typeof priorityOptions;
   sortBy: "createdAt" | "deadline";
   sortOrder: "asc" | "desc";
   tag: string;
   nearestDeadline: boolean;
 };
 
+export const priorityOptions = {
+  all: "All",
+  low: "Low",
+  medium: "Medium",
+  high: "High",
+};
+
 export const useTodoFilter = (todo:Todo[]) => {
   const [searchParams,setSearchParams] = useSearchParams();
   const query = useMemo(() => ({
-    priority: searchParams.get("priority") || "",
+    priority: searchParams.get("priority"),
     sortBy: (searchParams.get("sortBy") as "createdAt" | "deadline") || "createdAt",
     sortOrder: (searchParams.get("sortOrder") as "asc" | "desc") || "desc",
     tag: searchParams.get("tag") || "",
@@ -34,7 +41,7 @@ export const useTodoFilter = (todo:Todo[]) => {
   const filteredTodos = useMemo(() => {
     return todo
       .filter((todo) => {
-        if (query.priority && todo.priority !== query.priority) return false;
+        if (query.priority && todo.priority !== query.priority && query.priority !== "all") return false;
         if (query.tag && !todo.tags.includes(query.tag)) return false;
         if (query.nearestDeadline && todo.deadline) {
           const deadline = new Date(todo.deadline);

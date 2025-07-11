@@ -1,11 +1,10 @@
 import TodoBoard from "./components/TodoBoard";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "sonner";
 function App() {
   return (
     <>
       <TodoBoard />
-      <ToastContainer />
+      <Toaster position="top-right" closeButton />
     </>
   );
 }

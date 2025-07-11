@@ -1,10 +1,5 @@
+import { useState } from "react";
 import { useTodoStore } from "../stores/useTodoStore";
-import { todoStatus, type Todo, type TodoFormInput } from "../interfaces/todo";
-import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { WithContext as ReactTags, type Tag } from "react-tag-input";
-
 import IconCancel from "./icons/IconCancel";
 
 import "../assets/styles/reactTag.css";

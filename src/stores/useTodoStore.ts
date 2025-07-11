@@ -24,10 +24,10 @@ export const useTodoStore = create<TodoState>()(
     selectedEdit:null,
     selectedView:null,
     addTodo:(todo)=>set((state)=>({
-      todos:[...state.todos,{...todo, id:crypto.randomUUID(), createdAt: new Date().toString(),updatedAt: null, completed:false }]
+      todos:[...state.todos,{...todo, id:crypto.randomUUID(), createdAt:Date.now(), completed:false }]
     })),
     updateTodo:(id, todo)=>set((state)=>({
-      todos:state.todos.map((t)=>t.id === id ? {...t, ...todo,updatedAt:new Date().toString()} : t)
+      todos:state.todos.map((t)=>t.id === id ? {...t, ...todo} : t)
     })),
     deleteTodo:(id)=>set((state)=>({
       todos:state.todos.filter((t)=>t.id !== id)

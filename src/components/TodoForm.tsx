@@ -28,7 +28,7 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
     thumbnail: z
       .string()
       .min(1, "Không đc bỏ trống ảnh")
-      .refine(async (value) => {
+      .refine(async (value: string) => {
         return await checkThumbnail(value);
       }, "Ảnh k hợp lệ"),
   });

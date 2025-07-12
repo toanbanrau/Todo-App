@@ -32,7 +32,7 @@ const ProgressBar = () => {
       />
       <div className="relative w-full ">
         <div
-          className={`absolute -translate-y-8 -translate-x-1/2 w-12 h-12  rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg transition-all duration-300 ease-out ${
+          className={`absolute -translate-y-8 -translate-x-1/2 w-12 h-12  rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg transition-all  ${
             progressValue < 20
               ? "bg-red-500"
               : progressValue < 50

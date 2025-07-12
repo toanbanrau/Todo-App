@@ -19,7 +19,7 @@ const ProgressBar = () => {
   }, [totalTodoSuccess]);
 
   return (
-    <div className="mb-5">
+    <div className="my-5">
       <Progress
         value={progressValue}
         className={`w-full h-5 ${

@@ -1,5 +1,6 @@
 import { todoStatus } from "../interfaces/todo";
 import { useTodoStore } from "../stores/useTodoStore";
+import ProgressBar from "./ProgressBar";
 import TodoColumn from "./TodoColumn";
 import TodoForm from "./TodoForm";
 import TodoModal from "./TodoModal";
@@ -19,6 +20,7 @@ const TodoBoard = () => {
       <div className="my-10">
         <h1 className="flex justify-center text-3xl font-bold">Todo Board</h1>
         <div className="grid justify-center min-w-max">
+          <ProgressBar />
           <div className="grid grid-cols-3 gap-20">
             {Object.values(todoStatus).map((status) => {
               return (

@@ -19,8 +19,8 @@ const TodoBoard = () => {
     >
       <div className="my-10">
         <h1 className="flex justify-center text-3xl font-bold">Todo Board</h1>
+        <ProgressBar/>
         <div className="grid justify-center min-w-max">
-          <ProgressBar />
           <div className="grid grid-cols-3 gap-20">
             {Object.values(todoStatus).map((status) => {
               return (

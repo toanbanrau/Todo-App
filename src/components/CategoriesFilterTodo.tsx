@@ -36,7 +36,6 @@ const CategoriesFilterTodo = () => {
       </select>
       <select
         className="border rounded px-2 py-1 bg-[#f1f2f4]"
-        priorityOptions
         value={query.sortOrder || ""}
         onChange={(e) =>
           updateQuery({

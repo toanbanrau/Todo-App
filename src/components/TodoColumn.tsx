@@ -14,6 +14,7 @@ const TodoColumn = ({ status, todos }: TodoColumnProps) => {
   const [startAdd, setStartAdd] = useState(false);
   const [isOver, setIsDragOver] = useState<string | undefined>(undefined);
   const { updateTodo } = useTodoStore();
+  
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragOver(status);

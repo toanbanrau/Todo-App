@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { checkThumbnail } from "../lib/utils";
 import { toast } from "sonner";
 
+
 interface todoFormProps {
   statusAdd?: todoStatus;
   onClose: () => void;
@@ -29,7 +30,7 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
     thumbnail: z
       .string()
       .min(1, "Không đc bỏ trống ảnh")
-      .refine(async (value) => {
+      .refine(async (value: string) => {
         return await checkThumbnail(value);
       }, "Ảnh k hợp lệ"),
   });
@@ -63,7 +64,7 @@ const TodoForm = ({ statusAdd, todo, onClose }: todoFormProps) => {
   }, [todo, reset, statusAdd]);
 
   const onsubmit = (data: TodoFormInput) => {
-    if (todo && todo.id) {
+    if (todo?.id) {
       updateTodo(todo.id, data);
       onClose();
       toast("Cập nhật thành công");

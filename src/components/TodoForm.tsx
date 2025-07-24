@@ -1,15 +1,17 @@
 import { useTodoStore } from "../stores/useTodoStore";
+import { todoStatus, type Todo, type TodoFormInput } from "../interfaces/todo";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { WithContext as ReactTags, type Tag } from "react-tag-input";
+
 import IconCancel from "./icons/IconCancel";
 
 import "../assets/styles/reactTag.css";
 import { useEffect } from "react";
 import { checkThumbnail } from "../lib/utils";
 import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useForm, Controller } from "react-hook-form";
-import { todoStatus, type Todo, type TodoFormInput } from "../interfaces/todo";
-import { WithContext as ReactTags, type Tag } from "react-tag-input";
+
 
 interface todoFormProps {
   statusAdd?: todoStatus;

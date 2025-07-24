@@ -14,7 +14,7 @@ export const checkThumbnail = (dataUrl: string) => {
   });
 };
 
-export const successTodo = (totalTodo: number, totalDone: number) => {
-  const totalSuccess = Math.floor((totalDone / totalTodo) * 100);
-  return totalSuccess;
+export const successTodo = (todoCount: number, doneCount: number) => {
+  if (todoCount === 0) return 0;
+  return Math.floor((doneCount / todoCount) * 100);
 };
